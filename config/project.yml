@@ -1,1 +1,104 @@
-# Project descriptor for hardware/software builds
+# STARKAI Project Configuration
+# Project descriptor for hardware/software builds and deployment
+
+project:
+  name: "STARKAI"
+  version: "1.0.0"
+  description: "Tony Stark AI Assistant with multi-modal capabilities"
+  author: "STARKAI Development Team"
+  license: "Apache-2.0"
+
+# Build configuration
+build:
+  python_version: "3.8+"
+  dependencies_file: "requirements.txt"
+  entry_point: "main.py"
+  
+  # Build targets
+  targets:
+    - name: "desktop"
+      type: "python_app"
+      platform: ["linux", "windows", "macos"]
+    
+    - name: "embedded"
+      type: "micropython"
+      platform: ["esp32", "arduino"]
+      
+# Hardware configuration
+hardware:
+  supported_devices:
+    - type: "arduino"
+      models: ["uno", "nano", "mega"]
+      communication: "serial"
+      baudrate: 9600
+      
+    - type: "esp32"
+      models: ["esp32-dev", "esp32-cam"]
+      communication: "serial"
+      baudrate: 115200
+      
+    - type: "raspberry_pi"
+      models: ["3b+", "4b", "zero"]
+      communication: ["gpio", "i2c", "spi"]
+
+# API configuration
+apis:
+  openai:
+    required: false
+    models: ["gpt-3.5-turbo", "gpt-4"]
+    
+  reddit:
+    required: false
+    scopes: ["read"]
+    
+  twitter:
+    required: false
+    api_version: "v2"
+    
+  github:
+    required: false
+    scopes: ["public_repo", "read:user"]
+
+# Deployment configuration
+deployment:
+  environments:
+    - name: "development"
+      debug: true
+      log_level: "DEBUG"
+      
+    - name: "production"
+      debug: false
+      log_level: "INFO"
+      
+  docker:
+    enabled: true
+    base_image: "python:3.9-slim"
+    ports: [8000]
+    
+# Testing configuration
+testing:
+  unit_tests: "tests/"
+  coverage_threshold: 80
+  linting:
+    enabled: true
+    tools: ["flake8", "black"]
+    
+# Monitoring configuration
+monitoring:
+  system_stats: true
+  process_tracking: true
+  file_monitoring: true
+  log_rotation: true
+  
+# Security configuration
+security:
+  credential_encryption: true
+  api_key_validation: true
+  secure_communication: true
+  
+# Features configuration
+features:
+  voice_interface: false  # Placeholder implementation
+  web_interface: false    # Future feature
+  mobile_app: false       # Future feature
+  cloud_sync: false       # Future feature
